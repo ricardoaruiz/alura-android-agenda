@@ -14,8 +14,7 @@ public class ListaContatos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_contatos);
 
-        String[] alunos = {"Ricardo Ruiz", "Guilherme Ruiz", "Cinthya Carvalho", "Aluno1", "Aluno2",
-                           "Aluno3", "Aluno4", "Aluno5", "Aluno6", "Aluno7", "Aluno8"};
+        String[] alunos = {"Ricardo Ruiz", "Guilherme Ruiz", "Cinthya Carvalho", "Aluno1", "Aluno1", "Aluno1", "Aluno1", "Aluno1", "Aluno1", "Aluno1", "Aluno1"};
 
         ListView listAlunos = (ListView) findViewById(R.id.lista_alunos);
 
