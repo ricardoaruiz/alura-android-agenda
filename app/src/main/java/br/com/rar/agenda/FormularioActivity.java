@@ -8,14 +8,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import br.com.rar.agenda.modelo.Aluno;
+
 public class FormularioActivity extends AppCompatActivity {
+
+    private FormularioHelper formularioHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
+        formularioHelper = new FormularioHelper(this);
     }
 
     //Sobrescreve o menu
@@ -32,11 +38,15 @@ public class FormularioActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_formulario_ok :
-                Toast.makeText(FormularioActivity.this, "Aluno criado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                Aluno aluno = formularioHelper.getAluno();
+
+                Toast.makeText(FormularioActivity.this, aluno.getNome() + " salvo ", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 }
