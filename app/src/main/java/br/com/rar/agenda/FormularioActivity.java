@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import br.com.rar.agenda.dao.AlunoDAO;
 import br.com.rar.agenda.modelo.Aluno;
 
 public class FormularioActivity extends AppCompatActivity {
@@ -41,8 +42,13 @@ public class FormularioActivity extends AppCompatActivity {
 
                 Aluno aluno = formularioHelper.getAluno();
 
+                AlunoDAO alunoDAO = new AlunoDAO(FormularioActivity.this);
+                alunoDAO.insere(aluno);
+                alunoDAO.close();
+
                 Toast.makeText(FormularioActivity.this, aluno.getNome() + " salvo ", Toast.LENGTH_SHORT).show();
                 finish();
+
                 break;
         }
 
