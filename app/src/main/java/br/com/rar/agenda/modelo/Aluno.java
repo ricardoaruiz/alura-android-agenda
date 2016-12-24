@@ -5,6 +5,8 @@ package br.com.rar.agenda.modelo;
  */
 public class Aluno {
 
+    private Long id;
+
     private String nome;
 
     private String endereco;
@@ -14,6 +16,14 @@ public class Aluno {
     private String site;
 
     private Double nota;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -53,5 +63,10 @@ public class Aluno {
 
     public void setNota(Double nota) {
         this.nota = nota;
+    }
+
+    @Override
+    public String toString() {
+        return this.id + " - " + this.nome;
     }
 }
