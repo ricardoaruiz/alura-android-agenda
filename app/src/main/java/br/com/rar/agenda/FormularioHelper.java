@@ -26,7 +26,7 @@ public class FormularioHelper {
 
     private EditText campoSite;
 
-    RatingBar campoNota;
+    private RatingBar campoNota;
 
     public FormularioHelper(FormularioActivity activity) {
 
@@ -41,7 +41,9 @@ public class FormularioHelper {
         //Pega o aluno vindo da tela de listagem
         aluno = (Aluno) this.activity.getIntent().getSerializableExtra("aluno");
 
-        if(aluno != null) {
+        if(aluno == null) {
+            aluno = new Aluno();
+        } else {
             campoNome.setText(aluno.getNome());
             campoEndereco.setText(aluno.getEndereco());
             campoTelefone.setText(aluno.getTelefone());
@@ -51,10 +53,7 @@ public class FormularioHelper {
 
     }
 
-    public Aluno getAlunoFromForm() {
-
-        Aluno aluno = new Aluno();
-
+    public Aluno getAluno() {
         aluno.setNome(campoNome.getText().toString());
         aluno.setEndereco(campoEndereco.getText().toString());
         aluno.setTelefone(campoTelefone.getText().toString());
@@ -62,10 +61,6 @@ public class FormularioHelper {
         aluno.setNota(Double.valueOf(campoNota.getProgress()));
 
         return aluno;
-
     }
 
-    public Aluno getAluno() {
-        return aluno;
-    }
 }
