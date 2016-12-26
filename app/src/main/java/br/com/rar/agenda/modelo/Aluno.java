@@ -1,9 +1,13 @@
 package br.com.rar.agenda.modelo;
 
+import java.io.Serializable;
+
 /**
  * Created by ralmendro on 12/22/16.
  */
-public class Aluno {
+public class Aluno implements Serializable {
+
+    private static final long serialVersionUID = 8110372202663052350L;
 
     private Long id;
 

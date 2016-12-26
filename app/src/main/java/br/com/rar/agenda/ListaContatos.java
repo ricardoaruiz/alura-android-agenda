@@ -31,6 +31,14 @@ public class ListaContatos extends AppCompatActivity {
         listAlunos = (ListView) findViewById(R.id.lista_alunos);
         registerForContextMenu(listAlunos);
 
+        listAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> lista, View item, int position, long id) {
+                Aluno aluno = (Aluno) lista.getItemAtPosition(position);
+                Toast.makeText(ListaContatos.this, aluno.getNome() + " foi clicado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Button btnNovoAluno = (Button) findViewById(R.id.lista_aluno_btnNovoAluno);
         btnNovoAluno.setOnClickListener(new View.OnClickListener() {
             @Override
