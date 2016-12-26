@@ -35,7 +35,9 @@ public class ListaContatos extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int position, long id) {
                 Aluno aluno = (Aluno) lista.getItemAtPosition(position);
-                Toast.makeText(ListaContatos.this, aluno.getNome() + " foi clicado", Toast.LENGTH_SHORT).show();
+                Intent irParaFormulario = new Intent(ListaContatos.this, FormularioActivity.class);
+                irParaFormulario.putExtra("aluno", aluno);
+                startActivity(irParaFormulario);
             }
         });
 

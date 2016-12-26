@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
+import java.io.Serializable;
+
 import br.com.rar.agenda.modelo.Aluno;
 
 /**
@@ -13,6 +15,8 @@ import br.com.rar.agenda.modelo.Aluno;
 public class FormularioHelper {
 
     private FormularioActivity activity;
+
+    private Aluno aluno;
 
     private EditText campoNome;
 
@@ -33,9 +37,21 @@ public class FormularioHelper {
         campoTelefone = (EditText) activity.findViewById(R.id.formulario_telefone);
         campoSite = (EditText) activity.findViewById(R.id.formulario_site);
         campoNota = (RatingBar) activity.findViewById(R.id.formulario_nota);
+
+        //Pega o aluno vindo da tela de listagem
+        aluno = (Aluno) this.activity.getIntent().getSerializableExtra("aluno");
+
+        if(aluno != null) {
+            campoNome.setText(aluno.getNome());
+            campoEndereco.setText(aluno.getEndereco());
+            campoTelefone.setText(aluno.getTelefone());
+            campoSite.setText(aluno.getSite());
+            campoNota.setProgress(aluno.getNota().intValue());
+        }
+
     }
 
-    public Aluno getAluno() {
+    public Aluno getAlunoFromForm() {
 
         Aluno aluno = new Aluno();
 
@@ -49,4 +65,7 @@ public class FormularioHelper {
 
     }
 
+    public Aluno getAluno() {
+        return aluno;
+    }
 }
