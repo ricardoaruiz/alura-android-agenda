@@ -1,6 +1,7 @@
 package br.com.rar.agenda;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
@@ -70,13 +71,27 @@ public class ListaContatos extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
-        MenuItem menuRemover = menu.add("Remover");
 
+        AdapterView.AdapterContextMenuInfo adapterMenu = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final Aluno aluno = (Aluno) listAlunos.getItemAtPosition(adapterMenu.position);
+
+
+        MenuItem menuSite = menu.add("Visitar site");
+
+        String site = aluno.getSite();
+        if(!site.startsWith("http://")) {
+            site = "http://" + site;
+        }
+
+        Intent intentSite = new Intent(Intent.ACTION_VIEW);
+        intentSite.setData(Uri.parse(site));
+        menuSite.setIntent(intentSite);
+
+
+        MenuItem menuRemover = menu.add("Remover");
         menuRemover.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                AdapterView.AdapterContextMenuInfo adapterMenu = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                Aluno aluno = (Aluno) listAlunos.getItemAtPosition(adapterMenu.position);
 
                 AlunoDAO alunoDAO = new AlunoDAO(ListaContatos.this);
                 alunoDAO.remover(aluno);
