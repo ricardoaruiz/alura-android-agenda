@@ -76,6 +76,18 @@ public class ListaContatos extends AppCompatActivity {
         final Aluno aluno = (Aluno) listAlunos.getItemAtPosition(adapterMenu.position);
 
 
+        //Menu SMS
+        MenuItem menuSms = menu.add("Enviar SMS");
+        Intent intentSMS = new Intent(Intent.ACTION_VIEW);
+        intentSMS.setData(Uri.parse("sms:" + aluno.getTelefone()));
+        menuSms.setIntent(intentSMS);
+
+        MenuItem menuVerNoMapa = menu.add("Visualizar no mapa");
+        Intent intentVerNoMapa = new Intent(Intent.ACTION_VIEW);
+        intentVerNoMapa.setData(Uri.parse("geo:0,0?q=" + aluno.getEndereco()));
+        menuVerNoMapa.setIntent(intentVerNoMapa);
+
+        //Menu site
         MenuItem menuSite = menu.add("Visitar site");
 
         String site = aluno.getSite();
@@ -87,7 +99,7 @@ public class ListaContatos extends AppCompatActivity {
         intentSite.setData(Uri.parse(site));
         menuSite.setIntent(intentSite);
 
-
+        //Menu Remover
         MenuItem menuRemover = menu.add("Remover");
         menuRemover.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
