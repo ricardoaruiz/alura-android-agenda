@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 
+import java.io.File;
 import java.io.Serializable;
 
 import br.com.rar.agenda.modelo.Aluno;
@@ -67,13 +68,15 @@ public class FormularioHelper {
         aluno.setTelefone(campoTelefone.getText().toString());
         aluno.setSite(campoSite.getText().toString());
         aluno.setNota(Double.valueOf(campoNota.getProgress()));
-        aluno.setFoto((String) campoFoto.getTag());
+        if(campoFoto.getTag() != null) {
+            aluno.setFoto((String) campoFoto.getTag());
+        }
 
         return aluno;
     }
 
     public void carregaImagem(String caminhoFoto) {
-        if(caminhoFoto != null) {
+        if(caminhoFoto != null && new File(caminhoFoto).exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
             Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 200, 300, true);
             campoFoto.setImageBitmap(bitmapReduzido);
