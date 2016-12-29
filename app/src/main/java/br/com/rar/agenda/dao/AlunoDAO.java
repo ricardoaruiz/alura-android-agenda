@@ -19,20 +19,30 @@ import br.com.rar.agenda.modelo.Aluno;
 public class AlunoDAO extends SQLiteOpenHelper {
 
     public AlunoDAO(Context context) {
-        super(context, "agendadb", null, 2);
+        super(context, "agendadb", null, 3);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sqlCreateTableAlunos = "CREATE TABLE Alunos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL);";
+        String sqlCreateTableAlunos = "CREATE TABLE Alunos (id INTEGER PRIMARY KEY, " +
+                "nome TEXT NOT NULL, " +
+                "endereco TEXT, " +
+                "telefone TEXT, " +
+                "site TEXT, " +
+                "nota REAL, " +
+                "foto TEXT);";
         db.execSQL(sqlCreateTableAlunos);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String sqlDropTableAlunos = "DROP TABLE IF EXISTS Alunos";
-        db.execSQL(sqlDropTableAlunos);
-        onCreate(db);
+        String sql = "";
+        switch (oldVersion){
+            case 2:
+                sql = "ALTER TABLE Alunos ADD COLUMN foto TEXT;";
+                db.execSQL(sql);
+        }
+
     }
 
     public void insere(Aluno aluno) {
@@ -56,12 +66,13 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
         while (cursorAlunos.moveToNext()) {
             Aluno aluno = new Aluno();
-            aluno.setId(cursorAlunos.getLong(cursorAlunos.getColumnIndex("id")))    ;
+            aluno.setId(cursorAlunos.getLong(cursorAlunos.getColumnIndex("id")));
             aluno.setNome(cursorAlunos.getString(cursorAlunos.getColumnIndex("nome")));
             aluno.setEndereco(cursorAlunos.getString(cursorAlunos.getColumnIndex("endereco")));
             aluno.setTelefone(cursorAlunos.getString(cursorAlunos.getColumnIndex("telefone")));
             aluno.setSite(cursorAlunos.getString(cursorAlunos.getColumnIndex("site")));
             aluno.setNota(cursorAlunos.getDouble(cursorAlunos.getColumnIndex("nota")));
+            aluno.setFoto(cursorAlunos.getString(cursorAlunos.getColumnIndex("foto")));
             listaAlunos.add(aluno);
         }
 
@@ -91,6 +102,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
         dados.put("telefone", aluno.getTelefone());
         dados.put("site", aluno.getSite());
         dados.put("nota", aluno.getNota());
+        dados.put("foto", aluno.getFoto());
         return dados;
     }
 }
