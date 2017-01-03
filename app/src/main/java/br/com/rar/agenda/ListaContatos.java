@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.com.rar.agenda.adapter.AlunoAdapter;
+import br.com.rar.agenda.client.WebClient;
 import br.com.rar.agenda.converter.AlunoConverter;
 import br.com.rar.agenda.dao.AlunoDAO;
 import br.com.rar.agenda.modelo.Aluno;
@@ -86,7 +87,10 @@ public class ListaContatos extends AppCompatActivity {
                 AlunoConverter converter = new AlunoConverter();
                 String json = converter.convertToJson(alunos);
 
-                Toast.makeText(this, json, Toast.LENGTH_LONG).show();
+                WebClient webClient = new WebClient();
+                String resultado = webClient.post(json);
+
+                Toast.makeText(this, resultado, Toast.LENGTH_LONG).show();
                 break;
         }
 

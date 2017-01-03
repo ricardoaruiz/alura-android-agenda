@@ -13,7 +13,7 @@ import br.com.rar.agenda.modelo.Aluno;
 public class AlunoConverter {
 
     public String convertToJson(List<Aluno> alunos) {
-        
+
         JSONStringer json = new JSONStringer();
 
         try {
