@@ -2,15 +2,21 @@ package br.com.rar.agenda.task;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import br.com.rar.agenda.MediaResultAcitivity;
 import br.com.rar.agenda.client.WebClient;
+import br.com.rar.agenda.client.request.MediaRequest;
+import br.com.rar.agenda.client.request.MediaRequestAluno;
 import br.com.rar.agenda.converter.AlunoConverter;
 import br.com.rar.agenda.dao.AlunoDAO;
 import br.com.rar.agenda.modelo.Aluno;
+import br.com.rar.agenda.client.response.MediaResponse;
+import br.com.rar.agenda.utils.JsonUtil;
 
 /**
  * Created by ralmendro on 1/3/17.
@@ -39,11 +45,19 @@ public class EnviaAlunosTask extends AsyncTask<Void, Void, String> {
         List<Aluno> alunos = alunoDAO.buscaAlunos();
         alunoDAO.close();
 
+        //Monta a request com GSON
+        MediaRequestAluno mediaRequestAluno = new MediaRequestAluno(alunos);
+        List<MediaRequestAluno> listMediaRequestAluno = new ArrayList<MediaRequestAluno>();
+        listMediaRequestAluno.add(mediaRequestAluno);
+        MediaRequest request = new MediaRequest(listMediaRequestAluno);
+        String gsonJson = JsonUtil.toJson(request);
+
+        //Monta a request com JSONStringer
         AlunoConverter converter = new AlunoConverter();
-        String json = converter.convertToJson(alunos);
+        String jsonStringerJson = converter.convertToJson(alunos);
 
         WebClient webClient = new WebClient();
-        String resultado = webClient.post(json);
+        String resultado = webClient.post(gsonJson);
 
         return resultado;
     }
@@ -52,7 +66,14 @@ public class EnviaAlunosTask extends AsyncTask<Void, Void, String> {
     //executado após o processamento completo da task (após o doInBackground).
     @Override
     protected void onPostExecute(String resposta) {
+
         progressDialog.dismiss();
-        //Toast.makeText(context, resposta, Toast.LENGTH_LONG).show();
+
+        MediaResponse mediaResponse = (MediaResponse) JsonUtil.fromJson(resposta, MediaResponse.class);
+
+        Intent intent = new Intent(context, MediaResultAcitivity.class);
+        intent.putExtra("result", mediaResponse);
+        context.startActivity(intent);
+
     }
 }
