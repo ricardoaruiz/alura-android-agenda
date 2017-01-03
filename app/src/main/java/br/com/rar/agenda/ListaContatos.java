@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.com.rar.agenda.adapter.AlunoAdapter;
+import br.com.rar.agenda.converter.AlunoConverter;
 import br.com.rar.agenda.dao.AlunoDAO;
 import br.com.rar.agenda.modelo.Aluno;
 
@@ -77,7 +78,15 @@ public class ListaContatos extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.menu_lista_enviar_notas:
-                Toast.makeText(this, "Enviando notas...", Toast.LENGTH_SHORT).show();
+
+                AlunoDAO alunoDAO = new AlunoDAO(this);
+                List<Aluno> alunos = alunoDAO.buscaAlunos();
+                alunoDAO.close();
+
+                AlunoConverter converter = new AlunoConverter();
+                String json = converter.convertToJson(alunos);
+
+                Toast.makeText(this, json, Toast.LENGTH_LONG).show();
                 break;
         }
 
