@@ -25,11 +25,13 @@ import br.com.rar.agenda.client.WebClient;
 import br.com.rar.agenda.converter.AlunoConverter;
 import br.com.rar.agenda.dao.AlunoDAO;
 import br.com.rar.agenda.modelo.Aluno;
+import br.com.rar.agenda.task.EnviaAlunosTask;
 
 public class ListaContatos extends AppCompatActivity {
 
     public static final int CALL_PHONE_RETURN_CODE = 1;
     private static final int RECEIVE_SMS_RETURN_CODE = 2;
+    private static final int INTERNET_RETURN_CODE = 3;
 
     private ListView listAlunos;
 
@@ -79,18 +81,7 @@ public class ListaContatos extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.menu_lista_enviar_notas:
-
-                AlunoDAO alunoDAO = new AlunoDAO(this);
-                List<Aluno> alunos = alunoDAO.buscaAlunos();
-                alunoDAO.close();
-
-                AlunoConverter converter = new AlunoConverter();
-                String json = converter.convertToJson(alunos);
-
-                WebClient webClient = new WebClient();
-                String resultado = webClient.post(json);
-
-                Toast.makeText(this, resultado, Toast.LENGTH_LONG).show();
+                new EnviaAlunosTask(this).execute();
                 break;
         }
 

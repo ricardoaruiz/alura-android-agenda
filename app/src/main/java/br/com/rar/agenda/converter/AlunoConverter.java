@@ -19,7 +19,7 @@ public class AlunoConverter {
         try {
             json.object().key("list");
                 json.array();
-                    json.object().key("alunos");
+                    json.object().key("aluno");
                         json.array();
                             for(Aluno aluno : alunos) {
                                 json.object();
