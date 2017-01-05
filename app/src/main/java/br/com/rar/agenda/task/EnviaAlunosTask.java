@@ -4,12 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.rar.agenda.MediaResultAcitivity;
 import br.com.rar.agenda.client.WebClient;
+import br.com.rar.agenda.client.exception.AgendaWebClientIOException;
 import br.com.rar.agenda.client.request.MediaRequest;
 import br.com.rar.agenda.client.request.MediaRequestAluno;
 import br.com.rar.agenda.converter.AlunoConverter;
@@ -26,6 +28,7 @@ public class EnviaAlunosTask extends AsyncTask<Void, Void, String> {
 
     private Context context;
     private ProgressDialog progressDialog;
+    private boolean connectionError = false;
 
     public EnviaAlunosTask(Context context) {
         this.context = context;
@@ -57,7 +60,12 @@ public class EnviaAlunosTask extends AsyncTask<Void, Void, String> {
         String jsonStringerJson = converter.convertToJson(alunos);
 
         WebClient webClient = new WebClient();
-        String resultado = webClient.post(gsonJson);
+        String resultado = null;
+        try {
+            resultado = webClient.post(gsonJson);
+        } catch (AgendaWebClientIOException e) {
+            this.connectionError = true;
+        }
 
         return resultado;
     }
@@ -69,11 +77,15 @@ public class EnviaAlunosTask extends AsyncTask<Void, Void, String> {
 
         progressDialog.dismiss();
 
-        MediaResponse mediaResponse = (MediaResponse) JsonUtil.fromJson(resposta, MediaResponse.class);
+        if(this.connectionError) {
+            Toast.makeText(context, "Erro ao acessar a internet. É necessário estar em uma rede wifi ou 3G/4G para essa operação", Toast.LENGTH_SHORT).show();
+        } else {
 
-        Intent intent = new Intent(context, MediaResultAcitivity.class);
-        intent.putExtra("result", mediaResponse);
-        context.startActivity(intent);
+            MediaResponse mediaResponse = (MediaResponse) JsonUtil.fromJson(resposta, MediaResponse.class);
 
+            Intent intent = new Intent(context, MediaResultAcitivity.class);
+            intent.putExtra("result", mediaResponse);
+            context.startActivity(intent);
+        }
     }
 }

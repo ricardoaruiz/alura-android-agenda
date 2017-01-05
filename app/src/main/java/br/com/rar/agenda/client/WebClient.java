@@ -7,13 +7,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+import br.com.rar.agenda.client.exception.AgendaWebClientIOException;
+
 /**
  * Created by ralmendro on 1/3/17.
  */
 
 public class WebClient {
 
-    public String post(String json) {
+    public String post(String json) throws AgendaWebClientIOException {
 
         try {
             URL url = new URL("https://www.caelum.com.br/mobile");
@@ -41,7 +43,7 @@ public class WebClient {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new AgendaWebClientIOException();
         }
 
         return null;
