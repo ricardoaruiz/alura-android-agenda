@@ -84,6 +84,10 @@ public class ListaContatos extends AppCompatActivity {
             case R.id.menu_lista_enviar_notas:
                 new EnviaAlunosTask(this).execute();
                 break;
+            case R.id.menu_lista_receber_provas:
+                Intent irParaProvas = new Intent(this, ProvasActivity.class);
+                startActivity(irParaProvas);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

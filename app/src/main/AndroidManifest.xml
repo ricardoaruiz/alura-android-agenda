@@ -21,8 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FormularioActivity"></activity>
-        <activity android:name=".MediaResultAcitivity"></activity>
+        <activity android:name=".FormularioActivity" />
+        <activity android:name=".MediaResultAcitivity" />
 
         <receiver android:name=".receiver.SMSReceiver">
             <intent-filter>
@@ -30,7 +30,7 @@
             </intent-filter>
         </receiver>
 
-
+        <activity android:name=".ProvasActivity"></activity>
     </application>
 
 </manifest>
