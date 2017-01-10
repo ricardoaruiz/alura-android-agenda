@@ -58,6 +58,7 @@ public class ProvasActivity extends AppCompatActivity {
             detalhesProvaFragment.setArguments(parametros);
 
             tx.replace(R.id.frame_principal, detalhesProvaFragment);
+            tx.addToBackStack(null);
             tx.commit();
         }
 
