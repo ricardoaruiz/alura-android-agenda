@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.List;
 
+import br.com.rar.agenda.fragment.DetalhesProvaFragment;
 import br.com.rar.agenda.fragment.ListaProvasFragment;
 import br.com.rar.agenda.modelo.Prova;
 
@@ -26,8 +27,17 @@ public class ProvasActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction tx = fragmentManager.beginTransaction();
+
         tx.replace(R.id.frame_principal, new ListaProvasFragment());
+        if(estaEmModoPaisagem()) {
+            tx.replace(R.id.frame_secundario, new DetalhesProvaFragment());
+        }
+
         tx.commit();
 
+    }
+
+    private boolean estaEmModoPaisagem() {
+        return getResources().getBoolean(R.bool.modoPaisagem);
     }
 }
