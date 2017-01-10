@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +50,11 @@ public class ListaProvasFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Prova prova = (Prova) parent.getItemAtPosition(position);
-                Intent irParaDetalhesProva = new Intent(getContext(), DetalhesProvaActivity.class);
-                irParaDetalhesProva.putExtra("prova", prova);
-                startActivity(irParaDetalhesProva);
-                Toast.makeText(getContext(), "Clicou em " + prova.getMateria(), Toast.LENGTH_SHORT).show();
+
+                //TODO aqui tem que melhorar, pois o fragment pode ser chamada de diversas activities
+                ProvasActivity provasActivity = (ProvasActivity) getActivity();
+                provasActivity.selecionaProva(prova);
+
             }
         });
 

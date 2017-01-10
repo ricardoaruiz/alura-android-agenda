@@ -1,6 +1,7 @@
 package br.com.rar.agenda;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -39,5 +40,26 @@ public class ProvasActivity extends AppCompatActivity {
 
     private boolean estaEmModoPaisagem() {
         return getResources().getBoolean(R.bool.modoPaisagem);
+    }
+
+    public void selecionaProva(Prova prova) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if(estaEmModoPaisagem()) {
+            DetalhesProvaFragment detalhesProvaFragment = (DetalhesProvaFragment) fragmentManager.findFragmentById(R.id.frame_secundario);
+            detalhesProvaFragment.populaCampos(prova);
+        } else {
+            FragmentTransaction tx = fragmentManager.beginTransaction();
+
+            DetalhesProvaFragment detalhesProvaFragment = new DetalhesProvaFragment();
+            Bundle parametros = new Bundle();
+            parametros.putSerializable("prova", prova);
+            detalhesProvaFragment.setArguments(parametros);
+
+            tx.replace(R.id.frame_principal, detalhesProvaFragment);
+            tx.commit();
+        }
+
     }
 }
