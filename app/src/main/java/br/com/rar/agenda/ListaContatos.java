@@ -89,7 +89,7 @@ public class ListaContatos extends AppCompatActivity {
                 startActivity(irParaProvas);
                 break;
             case R.id.menu_lista_visualizar_mapa:
-                Intent irParaMapa = new Intent(this, MapsActivity.class);
+                Intent irParaMapa = new Intent(this, MapaActivity.class);
                 startActivity(irParaMapa);
                 break;
         }
