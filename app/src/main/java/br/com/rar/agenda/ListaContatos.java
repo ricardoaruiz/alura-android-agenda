@@ -88,6 +88,10 @@ public class ListaContatos extends AppCompatActivity {
                 Intent irParaProvas = new Intent(this, ProvasActivity.class);
                 startActivity(irParaProvas);
                 break;
+            case R.id.menu_lista_visualizar_mapa:
+                Intent irParaMapa = new Intent(this, MapsActivity.class);
+                startActivity(irParaMapa);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

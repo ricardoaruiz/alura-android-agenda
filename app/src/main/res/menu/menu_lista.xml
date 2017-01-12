@@ -13,4 +13,10 @@
         android:title="Receber Provas"
         android:icon="@drawable/ic_receber"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_lista_visualizar_mapa"
+        android:title="Visualizar no Mapa"
+        android:icon="@drawable/ic_mapa"
+        app:showAsAction="always"/>
 </menu>
