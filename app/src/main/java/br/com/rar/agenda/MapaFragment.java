@@ -3,6 +3,7 @@ package br.com.rar.agenda;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +25,8 @@ import br.com.rar.agenda.modelo.Aluno;
 
 public class MapaFragment extends SupportMapFragment implements OnMapReadyCallback {
 
+    private GoogleMap mapa;
+
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -33,6 +36,7 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        this.mapa = googleMap;
         LatLng posicao = getLatLngDoEndereco("R. José Bervint, 1079 - Jd Arrivabene, Artur Nogueira - SP");
         if(posicao != null) {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(posicao, 17);
@@ -57,7 +61,6 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
             }
         }
         alunoDAO.close();
-
     }
 
     private LatLng getLatLngDoEndereco(String endereco) {
@@ -71,6 +74,10 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void centralizar(CameraUpdate cameraUpdate) {
+        mapa.moveCamera(cameraUpdate);
     }
 }
 
