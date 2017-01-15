@@ -3,6 +3,7 @@ package br.com.rar.agenda;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -90,8 +91,14 @@ public class ListaContatos extends AppCompatActivity {
                 startActivity(irParaProvas);
                 break;
             case R.id.menu_lista_visualizar_mapa:
-                Intent irParaMapa = new Intent(this, MapaActivity.class);
-                startActivity(irParaMapa);
+
+                LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+                if(service.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    Intent irParaMapa = new Intent(this, MapaActivity.class);
+                    startActivity(irParaMapa);
+                } else {
+                    Toast.makeText(this, "O GPS deve estar ligado", Toast.LENGTH_LONG).show();
+                }
                 break;
         }
 

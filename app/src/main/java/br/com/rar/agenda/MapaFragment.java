@@ -11,6 +11,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -37,16 +38,16 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.mapa = googleMap;
-        LatLng posicao = getLatLngDoEndereco("R. José Bervint, 1079 - Jd Arrivabene, Artur Nogueira - SP");
-        if(posicao != null) {
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(posicao, 17);
-            googleMap.moveCamera(cameraUpdate);
-            MarkerOptions marcadorCentral = new MarkerOptions();
-            marcadorCentral.position(posicao);
-            marcadorCentral.title("RN Esportes");
-            marcadorCentral.snippet("Academia esportiva");
-            googleMap.addMarker(marcadorCentral);
-        }
+//        LatLng posicao = getLatLngDoEndereco("R. José Bervint, 1079 - Jd Arrivabene, Artur Nogueira - SP");
+//        if(posicao != null) {
+//            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(posicao, 17);
+//            googleMap.moveCamera(cameraUpdate);
+//            MarkerOptions marcadorCentral = new MarkerOptions();
+//            marcadorCentral.position(posicao);
+//            marcadorCentral.title("RN Esportes");
+//            marcadorCentral.snippet("Academia esportiva");
+//            googleMap.addMarker(marcadorCentral);
+//        }
 
         AlunoDAO alunoDAO = new AlunoDAO(getContext());
         List<Aluno> alunos = alunoDAO.buscaAlunos();
@@ -78,6 +79,10 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
 
     public void centralizar(CameraUpdate cameraUpdate) {
         mapa.moveCamera(cameraUpdate);
+    }
+
+    public Marker plotaMarcadorPosciaoAtual(MarkerOptions marcadorAtual) {
+        return mapa.addMarker(marcadorAtual);
     }
 }
 

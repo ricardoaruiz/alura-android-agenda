@@ -1,6 +1,7 @@
 package br.com.rar.agenda;
 
 import android.*;
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -17,6 +18,7 @@ public class MapaActivity extends AppCompatActivity {
 
 
     private MapaFragment mapaFragment;
+    private Localizador localizador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +32,29 @@ public class MapaActivity extends AppCompatActivity {
         tx.replace(R.id.frame_mapa, mapaFragment);
         tx.commit();
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            } else {
+                initLocalizador();
             }
+        } else {
+            initLocalizador();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        new Localizador(this, mapaFragment);
+        initLocalizador();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        localizador.pararConexaoComGoogleApi();
+    }
+
+    private void initLocalizador() {
+        this.localizador = new Localizador(this, mapaFragment);
+    }
 }
